@@ -48,6 +48,14 @@ async function run() {
       res.status(500).json({ error: "Internal server error" });
     }
   });
+
+
+  app.get('/trainer/get-id/:id', async (req, res) => {
+    const id = req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    try {const result = await Trainercollection.findOne(filter);
+      res.send(result);} catch (err) {res.status(500).send({ error: err.message });}
+  });
         
 
 // Send a ping to confirm a successful connection
