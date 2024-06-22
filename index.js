@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_URL}/?retryWrites=true&w=majority&appName=Cluster0`;
-
+// const uri = "mongodb+srv://multigym:<Kx2DYq0BG7gJYo1M--->@cluster0.9ahgmx8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 console.log(uri);
 
 
@@ -53,6 +53,23 @@ async function run() {
   app.get('/trainer/get-id/:id', async (req, res) => {
     const id = req.params.id;
     const filter = { _id: new ObjectId(id) };
+    try {const result = await Trainercollection.findOne(filter);
+      res.send(result);} catch (err) {res.status(500).send({ error: err.message });}
+  });
+
+  app.get('/trainer/get-all', async (req, res) => {
+    try {const cursor = Trainercollection.find();
+      const user = await cursor.toArray();
+      res.send(user);} 
+    catch (error) {
+      console.error("Error fetching all trainer:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get('/trainer/get-name/:name', async (req, res) => {
+    const name = req.params.name;
+    const filter = { short_name:name };
     try {const result = await Trainercollection.findOne(filter);
       res.send(result);} catch (err) {res.status(500).send({ error: err.message });}
   });
