@@ -26,7 +26,7 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
     
-    const News_collection = client.db('Gymweb').collection('news');
+    const News_collection = client.db('Gymweb').collection('blogs');
     const Team_collection = client.db('Gymweb').collection('Teams');
     const Testimonial_collection = client.db('Gymweb').collection('testimonial');
 
